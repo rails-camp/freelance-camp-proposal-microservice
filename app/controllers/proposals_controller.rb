@@ -18,6 +18,7 @@ class ProposalsController < ApplicationController
     @proposal = Proposal.new(proposal_params)
 
     if @proposal.save
+      ProposalMailer.email(@proposal).deliver_later
       render json: @proposal, status: :created, location: @proposal
     else
       render json: @proposal.errors, status: :unprocessable_entity
